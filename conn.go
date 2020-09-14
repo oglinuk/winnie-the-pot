@@ -13,7 +13,7 @@ func handleConn(srvrCfg *ssh.ServerConfig, conn net.Conn) {
 	defer conn.Close()
 	_, chans, reqs, err := ssh.NewServerConn(conn, srvrCfg)
 	if err != nil {
-		log.Fatalf("conn.go::initConn::ssh.NewServerConn(%v, %v)::ERROR: %s", conn, srvrCfg, err.Error())
+		log.Printf("conn.go::initConn::ssh.NewServerConn(%v, %v)::ERROR: %s", conn, srvrCfg, err.Error())
 	}
 
 	go HandleRequests(conn.RemoteAddr(), "global", reqs)
@@ -40,14 +40,14 @@ func initConn(w *Winnie) {
 	addr := getAddr()
 	lis, err := net.Listen("tcp", addr)
 	if err != nil {
-		log.Fatalf("conn.go::initConn::net.Listen(\"tcp\", %s)::ERROR: %s", addr, err.Error())
+		log.Printf("conn.go::initConn::net.Listen(\"tcp\", %s)::ERROR: %s", addr, err.Error())
 	}
 	log.Printf("SSH Server listening at %s ...", addr)
 	defer lis.Close()
 	for {
 		conn, err := lis.Accept()
 		if err != nil {
-			log.Fatalf("conn.go::initConn::lis.Accept()::ERROR: %s", err.Error())
+			log.Printf("conn.go::initConn::lis.Accept()::ERROR: %s", err.Error())
 		}
 		log.Printf("Client connected: %s", conn.RemoteAddr())
 		go handleConn(w.srvrCfg, conn)

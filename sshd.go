@@ -23,12 +23,12 @@ func getHostKey() ssh.Signer {
 	if *hostKey != "" {
 		pkBytes, err := ioutil.ReadFile(*hostKey)
 		if err != nil {
-			log.Fatalf("ssh.go::config::ioutil.ReadFile(%s)::ERROR: %s", *hostKey, err.Error())
+			log.Printf("ssh.go::config::ioutil.ReadFile(%s)::ERROR: %s", *hostKey, err.Error())
 		}
 
 		k, err = ssh.ParsePrivateKey(pkBytes)
 		if err != nil {
-			log.Fatalf("ssh.go::config::ssh.ParsePrivateKey(%v)::ERROR: %s", pkBytes, err.Error())
+			log.Printf("ssh.go::config::ssh.ParsePrivateKey(%v)::ERROR: %s", pkBytes, err.Error())
 		}
 	}
 
@@ -37,22 +37,22 @@ func getHostKey() ssh.Signer {
 	if _, err := os.Stat(defaultHK); err == nil {
 		pkBytes, err := ioutil.ReadFile(defaultHK)
 		if err != nil {
-			log.Fatalf("ssh.go::config::ioutil.ReadFile(%s)::ERROR: %s", defaultHK, err.Error())
+			log.Printf("ssh.go::config::ioutil.ReadFile(%s)::ERROR: %s", defaultHK, err.Error())
 		}
 
 		k, err = ssh.ParsePrivateKey(pkBytes)
 		if err != nil {
-			log.Fatalf("ssh.go::config::ssh.ParsePrivateKey(%v)::ERROR: %s", pkBytes, err.Error())
+			log.Printf("ssh.go::config::ssh.ParsePrivateKey(%v)::ERROR: %s", pkBytes, err.Error())
 		}
 	} else {
 		_, pkBytes, err := ed25519.GenerateKey(nil)
 		if err != nil {
-			log.Fatalf("ssh.go::config::ed25519.GenerateKey(nil)::ERROR: %s", err.Error())
+			log.Printf("ssh.go::config::ed25519.GenerateKey(nil)::ERROR: %s", err.Error())
 		}
 
 		k, err = ssh.NewSignerFromSigner(pkBytes)
 		if err != nil {
-			log.Fatalf("ssh.go::config::ssh.NewSignerFromSigner(%v)::ERROR: %s", pkBytes, err.Error())
+			log.Printf("ssh.go::config::ssh.NewSignerFromSigner(%v)::ERROR: %s", pkBytes, err.Error())
 		}
 
 		log.Println("No host key given, generated a temporary ed25519 one ...")

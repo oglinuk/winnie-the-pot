@@ -13,7 +13,7 @@ import (
 func HandleChannel(remoteAddr net.Addr, newChan ssh.NewChannel) {
 	channel, chanRequests, err := newChan.Accept()
 	if err != nil {
-		log.Fatal(err)
+		log.Printf("channel.go::HandleChannel::newChan.Accept()::ERROR: %s", err.Error())
 	}
 	defer channel.Close()
 	go HandleRequests(remoteAddr, newChan.ChannelType(), chanRequests)
