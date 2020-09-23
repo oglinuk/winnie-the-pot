@@ -9,8 +9,29 @@ import (
 	"golang.org/x/crypto/ssh/terminal"
 )
 
+type tcpip struct {
+	DestinationAddress string
+	DestinationPort    uint32
+	SourceAddress      string
+	SourcePort         uint32
+}
+
 // HandleChannel of incoming SSH channels
 func HandleChannel(remoteAddr net.Addr, newChan ssh.NewChannel) {
+	var payload interface{} = newChan.ExtraData()
+	switch newChan.ChannelType() {
+	case "forwarded-tcpip":
+		fallthrough
+	case "direct-tcpip":
+		dtcpip := tcpip{}
+		err := ssh.Unmarshal(newChan.ExtraData(), &dtcpip)
+		if err != nil {
+			log.Printf("channel.go::HandleChannel::ssh.Unmarshal()::ERROR: %s", err.Error())
+		}
+		payload = dtcpip
+	}
+	log.Printf("%s | %s | %v", remoteAddr, newChan.ChannelType(), payload)
+
 	channel, chanRequests, err := newChan.Accept()
 	if err != nil {
 		log.Printf("channel.go::HandleChannel::newChan.Accept()::ERROR: %s", err.Error())
