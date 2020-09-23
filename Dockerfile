@@ -5,7 +5,7 @@ RUN go get
 RUN make
 
 FROM ubuntu:20.04
-ARG DEBIAN_FRONTEND=non-interactive
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt update && apt install -y openssh-server && apt upgrade -y
 RUN mkdir ~/.ssh
 RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa

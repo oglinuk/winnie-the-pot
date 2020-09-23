@@ -1,0 +1,17 @@
+#!/bin/bash
+
+opt="$*"
+
+sed -i 's/#Port 22/Port 65427/g' /etc/ssh/sshd_config
+systemctl restart sshd
+export DEBIAN_FRONTEND=noninteractive
+apt update && apt install -y make && apt upgrade -y
+
+if [[ $opt =~ ^[docker] ]]; then
+    apt install docker.io -y
+    make docker
+else
+    ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa
+    make
+    ./winnie-the-pot
+fi
