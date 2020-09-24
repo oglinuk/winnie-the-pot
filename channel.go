@@ -52,7 +52,7 @@ func HandleChannel(remoteAddr net.Addr, newChan ssh.NewChannel) {
 				break
 			}
 
-			log.Printf("%s | %s | %s", remoteAddr, newChan.ChannelType(), line)
+			log.Printf("[Channel]: %s | %s | %s", remoteAddr, newChan.ChannelType(), line)
 		}
 	} else {
 		data := make([]byte, 256)
@@ -67,7 +67,7 @@ func HandleChannel(remoteAddr net.Addr, newChan ssh.NewChannel) {
 				break
 			}
 
-			log.Printf("%s | %s | %s", remoteAddr, newChan.ChannelType(), string(data[:length]))
+			log.Printf("[Channel]: %s | %s | %s", remoteAddr, newChan.ChannelType(), string(data[:length]))
 		}
 	}
 }

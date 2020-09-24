@@ -49,7 +49,6 @@ func initConn(w *Winnie) {
 		if err != nil {
 			log.Printf("conn.go::initConn::lis.Accept()::ERROR: %s", err.Error())
 		}
-		log.Printf("Client connected: %s", conn.RemoteAddr())
 		go handleConn(w.srvrCfg, conn)
 	}
 }

@@ -12,4 +12,3 @@ An SSH honey pot that allows anyone in and logs their activity.
 ## TODO
 
 * [ ] Allow access to root with stripped permissions
-* [ ] Deny access for first 1-3 attempts

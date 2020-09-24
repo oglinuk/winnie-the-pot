@@ -1,7 +1,7 @@
 FROM golang:1.15.0 as base
 ADD . /go/src/winnie-the-pot
 WORKDIR /go/src/winnie-the-pot
-RUN go get
+RUN go mod download
 RUN make
 
 FROM ubuntu:20.04

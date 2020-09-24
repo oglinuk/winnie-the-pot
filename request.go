@@ -40,7 +40,7 @@ func HandleRequests(remoteAddr net.Addr, channel string, requests <-chan *ssh.Re
 			}
 			payload = ptyPayload
 		}
-		log.Printf("%s | %s | %s | %s", remoteAddr, channel, request.Type, payload)
+		log.Printf("[Request]: %s | %s | %s | %s", remoteAddr, channel, request.Type, payload)
 		if request.WantReply {
 			err := request.Reply(true, nil)
 			if err != nil {

@@ -45,6 +45,7 @@ func getHostKey() ssh.Signer {
 			log.Printf("ssh.go::config::ssh.ParsePrivateKey(%v)::ERROR: %s", pkBytes, err.Error())
 		}
 	} else {
+		// If $HOME/.ssh/id_rsa does not exist generate a temporary ed25519 key
 		_, pkBytes, err := ed25519.GenerateKey(nil)
 		if err != nil {
 			log.Printf("ssh.go::config::ed25519.GenerateKey(nil)::ERROR: %s", err.Error())
@@ -55,7 +56,7 @@ func getHostKey() ssh.Signer {
 			log.Printf("ssh.go::config::ssh.NewSignerFromSigner(%v)::ERROR: %s", pkBytes, err.Error())
 		}
 
-		log.Println("No host key given, generated a temporary ed25519 one ...")
+		log.Println("No host key given or found, a temporary ed25519 one has been generated ...")
 	}
 
 	return k
@@ -78,7 +79,7 @@ func config() *ssh.ServerConfig {
 	cfg := &ssh.ServerConfig{
 		PasswordCallback: func(conn ssh.ConnMetadata, password []byte) (*ssh.Permissions, error) {
 			// Log the attackers info and let them in
-			log.Printf("%d | %s | %s | %s | %s", time.Now().Unix(),
+			log.Printf("[Connection]: %d | %s | %s | %s | %s", time.Now().Unix(),
 				conn.RemoteAddr(),
 				string(conn.ClientVersion()),
 				conn.User(),
