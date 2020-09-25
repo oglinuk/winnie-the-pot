@@ -30,7 +30,7 @@ func HandleChannel(remoteAddr net.Addr, newChan ssh.NewChannel) {
 		}
 		payload = dtcpip
 	}
-	log.Printf("%s | %s | %v", remoteAddr, newChan.ChannelType(), payload)
+	log.Printf("[Channel]: %s | %s | %v", remoteAddr, newChan.ChannelType(), payload)
 
 	channel, chanRequests, err := newChan.Accept()
 	if err != nil {

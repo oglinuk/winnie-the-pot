@@ -6,6 +6,7 @@ sed -i 's/#Port 22/Port 65427/g' /etc/ssh/sshd_config
 systemctl restart sshd
 export DEBIAN_FRONTEND=noninteractive
 apt update && apt install -y make golang-go && apt upgrade -y
+tmux
 
 if [[ $opt =~ ^[docker] ]]; then
     apt install docker.io -y
